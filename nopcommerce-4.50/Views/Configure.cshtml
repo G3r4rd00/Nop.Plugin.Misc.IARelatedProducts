@@ -1,0 +1,131 @@
+﻿@using Nop.Plugin.Misc.IARelatedProducts.Models;
+@using Nop.Web.Framework.Models.DataTables;
+
+
+@model ConfigurationModel
+
+@{
+	Layout = "_ConfigurePlugin";
+}
+
+
+<div class="cards-group">
+	<form asp-controller="IARelatedProducts" asp-action="configure">
+		<div class="card card-default card-search form-horizontal">
+			<div class="card-body">
+				<div class="search-body" > 
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group row">
+								<div class="col-md-4">
+									<nop-label asp-for="@Model.Support" />
+								</div>
+								<div class="col-md-8">
+									<nop-editor asp-for="@Model.Support" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group row">
+								<div class="col-md-4">
+									<nop-label asp-for="@Model.Confidence" />
+								</div>
+								<div class="col-md-8">
+									<nop-editor asp-for="@Model.Confidence" />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="text-center col-12">
+							<button  type="submit" class="btn btn-primary btn-search">
+								<i class="fas fa-search"></i>
+								@T("Admin.Common.Save")
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	
+	<form asp-controller="IARelatedProducts" asp-action="CreateModel">
+		<div class="card card-default card-search form-horizontal">
+			<div class="card-body">
+				<div class="form-group row">
+					<div class="text-center col-12">
+						<button  type="submit" class="btn btn-primary btn-load">
+							<i class="fas fa-load"></i>
+							Load Model
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<script>
+		function renderProduct(data, type, row, meta) 
+		{
+			if (data == null)
+				return '';
+			var html = '<img src="' + data.Url + '" alt="' + data.Name + '" style="width: 100px;float: left" />';
+			if (meta.col > 0)
+				html += '<div>Suport: ' + data.Support.toFixed(4) + "</div><div>Confidence: " + data.Confidence.toFixed(4) + "</div>";
+			return html;
+		}
+	</script>
+
+	@await Html.PartialAsync("Table", new DataTablesModel
+	{
+		Name = "RelatedProduct-grid",
+		UrlRead = new DataUrl("Search", "IARelatedProducts"),
+		Processing = true,
+		Paging = true,
+		SearchButtonId = "search-relatedproducts",
+		Info = false,
+		Length = Model.PageSize,
+		LengthMenu = "10,20,30",
+		ColumnCollection = new List<ColumnProperty>
+		{
+			new ColumnProperty(nameof(RelatedProductsDTO.MainProduct))
+			{
+				Title = "Main",Render = new RenderCustom("renderProduct"), Width = "100px"
+			},
+			new ColumnProperty(nameof(RelatedProductsDTO.Related1))
+			{
+				Title = "Product1",Render = new RenderCustom("renderProduct"), Width = "100px"
+			},
+			new ColumnProperty(nameof(RelatedProductsDTO.Related2))
+			{
+				Title = "Product2",Render = new RenderCustom("renderProduct"), Width = "100px"
+			},
+			new ColumnProperty(nameof(RelatedProductsDTO.Related3))
+			{
+				Title = "Product3",Render = new RenderCustom("renderProduct"), Width = "100px"
+			},
+			new ColumnProperty(nameof(RelatedProductsDTO.Related4))
+			{
+				Title = "Product4",Render = new RenderCustom("renderProduct"), Width = "100px"
+			},
+			new ColumnProperty(nameof(RelatedProductsDTO.Related5))
+			{
+				Title = "Product5",Render = new RenderCustom("renderProduct"), Width = "100px"
+			}
+		}
+	})
+
+	<form asp-controller="IARelatedProducts" asp-action="SaveModel">
+		<div class="card card-default card-search form-horizontal">
+			<div class="card-body">
+				<div class="form-group row">
+					<div class="text-center col-12">
+						<button type="submit" class="btn btn-primary btn-save">
+							<i class="fas fa-save"></i>
+							Save related products
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>	
+</div>

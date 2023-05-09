@@ -1,0 +1,9 @@
+﻿[
+    {
+        "Type": "Plugin",
+        "SupportedVersion": "4.50.4",
+        "DirectoryPath": "Nop.Plugin.Misc.IARelatedProducts/",
+        "SystemName": "Misc.IARelatedProducts",
+        "SourceDirectoryPath": "Nop.Plugin.Misc.IARelatedProducts/"
+    }
+]
